@@ -1,0 +1,226 @@
+/.idea/
+__pycache__
+/tests/.pytest_cache/
+/tests/tests_temp/
+/.pytest_cache/
+/carvekit.egg-info/
+venv
+.DS_Store
+.idea/
+
+*.png
+*.jpg
+*.jpeg
+/checkpoint/
+.pth
+.h5
+/build/
+
+# openpose
+######################### Binary Files #########################
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.cuo
+
+# Compiled Dynamic libraries
+*.so*
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Compiled protocol buffers
+*.pb.h
+*.pb.cc
+*_pb2.py
+
+# Compiled python
+*.pyc
+
+# Compiled MATLAB
+*.mex*
+
+# IPython notebook checkpoints
+.ipynb_checkpoints
+
+# LevelDB files
+*.sst
+*.ldb
+LOCK
+CURRENT
+MANIFEST-*
+
+######################### IDEs Files #########################
+# Editor temporaries
+*.swp
+*~
+
+# Sublime Text settings
+*.sublime-workspace
+*.sublime-project
+
+# Eclipse Project settings
+*.*project
+.settings
+
+# QtCreator files
+*.user
+
+# PyCharm files
+.idea
+
+# OSX dir files
+.DS_Store
+._.DS_Store
+
+# Vim files
+cscope.*
+tags
+.clang_complete
+.vim
+
+######################### Windows (Visual Studio) Files #########################
+*.db
+*.deps
+*.obj
+*.opendb
+*.pdb
+
+######################### Windows (Visual Studio) Folders and Compressed files #########################
+*.vs/
+*x64/
+# Allowing this file (removed *.user for Qt)
+!*.vcxproj.user
+
+######################### Caffe Files / Folders #########################
+# User's build configuration
+Makefile
+Makefile.config
+
+# Data and models are either
+	# 1. reference, and not casually committed
+	# 2. custom, and live on their own unless they're deliberated contributed
+distribute/
+*.caffemodel
+*.caffemodel.h5
+*.solverstate
+*.solverstate.h5
+*.binaryproto
+*leveldb
+*lmdb
+
+# Camera parameters
+*.xml
+
+######################### 3rd-party Folders and Zip Files #########################
+3rdparty/caffe/.git
+3rdparty/caffe/.github
+3rdparty/asio/
+3rdparty/eigen/
+3rdparty/windows/caffe/
+3rdparty/windows/caffe_cpu/
+3rdparty/windows/caffe_opencl/
+3rdparty/windows/caffe3rdparty/
+3rdparty/windows/opencv/
+3rdparty/windows/freeglut/
+3rdparty/windows/spinnaker/
+3rdparty/*zip
+3rdparty/windows/*zip
+
+######################### Compilation (build, distribute & bins) Files / Folders #########################
+*.bin
+*.testbin
+build
+build*
+.build*
+*cmake_build
+distribute/*
+python/caffe/proto/
+
+######################### Generated Documentation #########################
+_site
+docs/_site
+docs/dev
+docs/gathered
+doxygen
+html/
+
+######################### Video Files #########################
+# Testing videos
+*.mp4
+*.mov
+
+######################### Validation Scripts & Testing #########################
+output*/
+
+
+# dense pose
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Shared objects
+*.so
+
+# Distribution / packaging
+build/
+*.egg-info/
+*.egg
+
+# Temporary files
+*.swn
+*.swo
+*.swp
+
+*.mat
+*.pkl
+!DensePoseData/demo_data/demo_dp_single_ann.pkl
+*.tar.gz
+*.json
+!challenge/2018_COCO_DensePose/example_results.json
+
+*.DS_Store
+# Dataset symlinks
+detectron/datasets/data/*
+!detectron/datasets/data/README.md
+
+# Generated C files
+detectron/utils/cython_*.c
+
+notebooks_old/*
+configs_old/*
+
+
+.nfs*
+
+
+# data
+Fastapi/data/agnostic-v3.2/
+Fastapi/data/cloth/
+Fastapi/data/cloth-mask/
+Fastapi/data/image/
+Fastapi/data/image-densepose/
+Fastapi/data/image-parse-agnostic-v3.2/
+Fastapi/data/image-parse-v3/
+Fastapi/data/openpose_img/
+Fastapi/data/openpose_json/
+Fastapi/output/
+Flutter/assets/
+
+# carve kit
+/.idea/
+__pycache__
+/tests/.pytest_cache/
+/tests/tests_temp/
+/.pytest_cache/
+/carvekit.egg-info/
+venv
+
+# model
+Fastapi/HR-VITON/eval_models/
+Fastapi/humanparse/inference.pth
