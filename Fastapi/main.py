@@ -12,43 +12,67 @@ from cloth_mask import get_cloth_mask
 from densepose.get_densepose import get_densepose
 from humanparse.get_human_parse import get_human_parse
 from openpose.get_openpose import get_openpose
+from fastapi.middleware.cors import CORSMiddleware
 
+origins = ["http://127.0.0.1:3000"]
 app = FastAPI()
+
 # uvicorn main:app --reload
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+@app.post("/cloth")
+async def cloth(image: UploadFile = File(...)):
+    UPLOAD_FOLDER = "data/test/cloth"
+    print(image.filename) #이미지 이름
+    file_location = os.path.join(UPLOAD_FOLDER, image.filename)
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+    # 받은 이미지를 user_image 폴더에 저장
+    with open(file_location, "wb") as buffer:
+        buffer.write(await image.read())
+
+    print(file_location) #파일 전체 경로 data/test/cloth\t1.jpg
+
+    get_cloth_mask(image.filename)
+
+    with open(f"data/test/cloth-mask/{image.filename}", "rb") as img_file:
+        print(image.filename) # 출력결과: 'result_gan_vid/face_6.jpg' 이렇게 나오면 안되고 face_6.jpg 만 나와야함
+        image_bytes = img_file.read()
+
+    a = base64.b64encode(image_bytes).decode()
+    # 바이트 스트림을 base64 인코딩하여 반환
+    return {"data": a}
 
 
-@app.post("/upload", status_code=200)
-async def upload_image(model: UploadFile = File(...), cloth: UploadFile = File(...)):
-    model_path = f"./data/image/{model.filename.split('.')[0]}"
-    os.makedirs(model_path, exist_ok=True)
-    model_fname = f"{model_path}/{model.filename}"
-    with open(model_fname, "wb") as buffer:
-        buffer.write(await model.read())
-    model_image = Image.open(model_fname)
-    # model_image.show()
+@app.post("/densepose")
+async def densepose(image: UploadFile = File(...)):
+    UPLOAD_FOLDER = "data/test/image"
+    print(image.filename)  # 이미지 이름
+    file_location = os.path.join(UPLOAD_FOLDER, image.filename)
+    with open(file_location, "wb") as buffer:
+        buffer.write(await image.read())
 
-    cloth_fname = f"./data/cloth/{cloth.filename}"
-    with open(cloth_fname, "wb") as buffer:
-        buffer.write(await cloth.read())
-    cloth_image = Image.open(cloth_fname)
-    # cloth_image.show()
-    """
-    cloth_data = await cloth.read()
-    cloth_image = Image.open(BytesIO(cloth_data))
-    cloth_image.show()
-    """
-    return JSONResponse(status_code=200,
-                        content={"msg": "send to fastapi done"})
+    print(f'######## model_fname for densepose: {image.filename}')
+    os.chdir("./densepose")
+    get_densepose(image.filename)
+    os.chdir("../")
+
+    with open(f"data/test/image-densepose/{image.filename}", "rb") as img_file:
+        print(image.filename)  # 출력결과: 'result_gan_vid/face_6.jpg' 이렇게 나오면 안되고 face_6.jpg 만 나와야함
+        image_bytes = img_file.read()
+
+    a = base64.b64encode(image_bytes).decode()
+    return {"data": a}
 
 
 @app.post("/cloth-mask", status_code=200)

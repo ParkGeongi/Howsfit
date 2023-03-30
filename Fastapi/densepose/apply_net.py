@@ -284,7 +284,7 @@ class ShowAction(InferenceAction):
         image_vis = visualizer.visualize(image, data)
         entry_idx = context["entry_idx"] + 1
         out_fname = image_fpath.split('/')[-1]
-        out_dir = '../data/image-densepose/'
+        out_dir = '../data/test/image-densepose/'
         if len(out_dir) > 0 and not os.path.exists(out_dir):
             os.makedirs(out_dir)
         output = out_dir + out_fname

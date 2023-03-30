@@ -7,7 +7,7 @@ def get_densepose(model_fname):
                         "configs/densepose_rcnn_R_50_FPN_s1x.yaml " \
                         "https://dl.fbaipublicfiles.com/densepose" \
                         "/densepose_rcnn_R_50_FPN_s1x/165712039/model_final_162be9.pkl " \
-                        f"../data/image/{model_fname.split('.')[0]}/{model_fname} " \
+                        f"../data/test/image/{model_fname} " \
                         f"dp_segm -v --opts MODEL.DEVICE cpu"
     os.system(terminnal_command)
 
