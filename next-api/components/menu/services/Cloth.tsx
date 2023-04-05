@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 function Cloth() {
-  const [url, setUrl] = useState<string>('https://bucket-4cr3lx.s3.ap-northeast-2.amazonaws.com/');
+  const [url, setUrl] = useState<string>('https://bucket-aiacademy.s3.ap-northeast-2.amazonaws.com/howsfit/');
   const [image, setImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [resizedImage, setResizedImage] = useState<string | null>(null);
@@ -21,7 +21,7 @@ function Cloth() {
 
     try {
       const response = await axios.post<{ data: string }>(
-        "http://127.0.0.1:8000/cloth",
+        "http://howsfit.shop/cloth",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -69,7 +69,7 @@ function Cloth() {
            
               {isLoading && (
                 <div>
-                  <img style={{ width: 300 }} src={`${url}ai_logo.gif`} alt="logo" />
+                  <img style={{ width: 300 }} src={`${url}fit_logo.gif`} alt="logo" />
                   <h3>변환 중입니다!</h3>
                 </div>
               )}

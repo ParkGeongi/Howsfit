@@ -7,11 +7,11 @@ const ServicePage = () => {
   return (
     <div>
       <Cloth/>
-      <br/>
+
       <Person/>
-      <br/>
+
       <Viton/>
-      <br/>
+ 
     </div>
       
   )

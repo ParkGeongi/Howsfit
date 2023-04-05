@@ -23,7 +23,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({
   const [url, setUrl] = useState<string>(
     'https://bucket-aiacademy.s3.ap-northeast-2.amazonaws.com/howsfit/',
   );
-  const [url2, setUrl2] = useState<string>("https://bucket-4cr3lx.s3.ap-northeast-2.amazonaws.com/");
+
   const handleClickGitHub = () => {
     window.location.href = gitHubUrl;
   };
@@ -58,7 +58,7 @@ const Team: React.FC = () => {
               <TeamMember
                 name="박 건 기"
                 email="이메일 : pgg11357@gmail.com"
-                kakao="카카오톡 : geongi"
+                kakao="카카오톡 : pgg113579@naver.com"
                 imageSrc="geongi.jpg"
                 gitHubUrl="https://github.com/ParkGeongi"
                 blogUrl="https://velog.io/@pgg113579/Howsfit-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94"
@@ -68,11 +68,11 @@ const Team: React.FC = () => {
             <td>
               <TeamMember
                 name="조 용 훈"
-                email="이메일 : pgg11357@gmail.com"
-                kakao="카카오톡 : geongi"
+                email="이메일 : "
+                kakao="카카오톡 : "
                 imageSrc="이미지"
-                gitHubUrl="깃 링크"
-                blogUrl="블로그 링크"
+                gitHubUrl="https://github.com/Johyonghoon"
+                blogUrl="https://velog.io/@johyonghoon"
 
               />
             </td>

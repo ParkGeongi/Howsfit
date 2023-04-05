@@ -1,155 +1,120 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Viton() {
-  const [url, setUrl] = useState<string>('https://bucket-4cr3lx.s3.ap-northeast-2.amazonaws.com/');
-  const [image, setImage] = useState<File | null>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [resizedImage, setResizedImage] = useState<string | null>(null);
+const loadingStyle = {
+  fontSize: "24px",
+  fontWeight: "bold",
+  marginBottom: "32px",
+  color: "#787878",
+};
+
+const resultStyle = {
+  maxWidth: "80%",
+  maxHeight: "500px",
+  margin: "16px auto",
+  border: "none",
+  borderRadius: "10px",
+};
+
+const buttonStyle = {
+  backgroundColor: "#FBB6CE",
+  color: "white",
+  padding: "12px 20px",
+  borderRadius: "5px",
+  border: "none",
+  fontSize: "16px",
+  fontWeight: "bold",
+  cursor: "pointer",
+  boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+  textDecoration: "none",
+  margin: "32px auto",
+  display: "block",
+};
+
+const linkStyle = {
+  backgroundColor: "#FBB6CE",
+  color: "white",
+  padding: "12px 15px",
+  borderRadius: "5px",
+  border: "none",
+  fontSize: "16px",
+  fontWeight: "bold",
+  cursor: "pointer",
+  boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+  textDecoration: "none",
+};
+
+const Viton = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
- 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!image) return;
+  const [imageSrc, setImageSrc] = useState("");
+  const [url, setUrl] = useState<string>("https://bucket-aiacademy.s3.ap-northeast-2.amazonaws.com/howsfit/");
 
+  const handleClick = async () => {
     setIsLoading(true);
-    setErrorMessage(null); // 에러 메시지 초기화
-
-    const formData = new FormData();
-    formData.append("image", image);
-
     try {
-      const response = await axios.post<{ data: string }>(
-        "http://127.0.0.1:8000/cloth",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      const imageData = response.data.data;
-      setResizedImage(`data:image/jpeg;base64,${imageData}`);
+      const response = await axios.post("http://howsfit.shop/try-on");
+      const imageBase64 = response.data.data;
+      setImageSrc(`data:image/jpeg;base64,${imageBase64}`);
     } catch (error) {
-      console.log(error);
-      setErrorMessage("변환 실패 다시 업로드해 주세요.\n이미지 업로드 가이드를 참고 해주세요"); // 실패 메시지 설정
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImage(null);
-      setPreviewImage(null);
-    }
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = imageSrc;
+    link.download = "viton-image.jpeg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 800, boxShadow: '0 0 5px 5px pink'}}>
-      <table>
-        <tbody>
-          <tr>
-            <td style={{ textAlign: "center", width: 400, height: 400}}>
-              <h2>원본 이미지</h2>
-              {previewImage && !isLoading && !errorMessage && (
-                <div>
-                  <img style={{ width: 400 }} src={previewImage} alt="Preview" />
-                </div>
-              )}
-           
-              {isLoading && (
-                <div>
-                  <img style={{ width: 300 }} src={`${url}ai_logo.gif`} alt="logo" />
-                  <h3>변환 중입니다!</h3>
-                </div>
-              )}
-              {errorMessage && (
-                <div>
-                  <p>{errorMessage}</p>
-                  <button onClick={() => window.location.reload()}>새로고침</button>
-                </div>
-              )}
-            </td>
-
-
-            <td style={{ textAlign: "center", width: 400, height: 400}}>
-              
-              <p style={{fontSize: '20px', color: "hotpink", fontWeight: "bold"}}>이미지 업로드 가이드</p>
-              <p>옷 사진을 업로드 해주세요</p>
-              <br/><br/><br/><br/><br/><br/>
-              <form onSubmit={handleSubmit}>
-                <input  style={{
-                      backgroundColor: "pink",
-                      color: "white",
-                      padding: "10px 15px",
-                      borderRadius: "5px",
-                      border: "none",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-                      textDecoration: "none",
-                    }} type="file" accept="image/*" onChange={handleImageChange} />
-                    <br/><br/><br/>
-                <button style={{
-                      backgroundColor: "pink",
-                      color: "white",
-                      padding: "10px 15px",
-                      borderRadius: "5px",
-                      border: "none",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-                      textDecoration: "none",
-                    }} type="submit">변환하기</button>
-              </form>
-            </td>
-            <td style={{ textAlign: "center", width: 400, height: 400}}>
-              <h2>전처리 이미지</h2>
-              {resizedImage && (
-                <div>
-                  <img style={{ width: 400 }} src={resizedImage} alt="Resized" />
-                  <br /><br />
-                  <a
-                    href={resizedImage}
-                    download
-                    style={{
-                      backgroundColor: "pink",
-                      color: "white",
-                      padding: "10px 15px",
-                      borderRadius: "5px",
-                      border: "none",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-                      textDecoration: "none",
-                    }}
-                  >
-                    다운로드
-                  </a>
-                </div>
-              )}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div
+      style={{
+        textAlign: "center",
+        padding: "64px",
+        borderRadius: "10px",
+        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+        maxWidth: "600px",
+        margin: "0 auto"
+      }}
+    >
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <p style={{ fontSize: "24px" }}>로딩중입니다...</p>
+          <img style={{ width: 50 }} src={`${url}walk.gif`} alt="loading" />
+        </div>
+      ) : (
+        <>
+          <button style={buttonStyle} onClick={handleClick}>
+            결과 확인
+          </button>
+          {imageSrc && (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <img src={imageSrc} alt="image" style={resultStyle} />
+              <a
+                href={imageSrc}
+                download
+                style={linkStyle}
+                onClick={handleDownload}
+              >
+                다운로드
+              </a>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default Viton;
-
-
-

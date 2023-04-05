@@ -19,9 +19,7 @@ export default function Nav() {
         </div>
         <div className={styles.menus}>
           <div className={styles.mainMenu}>
-            <Button style={{ fontSize: '20px', color: 'black' }}>
-              <Link href="/menu/intro">소개</Link>
-            </Button>
+
             <Button style={{ fontSize: '20px', color: 'black' }}>
               <Link href="/menu/team">팀원</Link>
             </Button>
